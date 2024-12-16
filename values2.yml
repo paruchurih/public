@@ -1,0 +1,5 @@
+labels2:
+  deployLabel: nginx
+  app: nginx
+  owner: JavaAppTeam
+  environment: dev

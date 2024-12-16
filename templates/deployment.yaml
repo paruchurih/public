@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: {{ .Values.labels.app | quote }}
+    owner: {{ .Values.labels.owner | quote }}
+    environment: {{ .Values.labels.environment | quote }}
+  annotations: 
+    description: {{ .Values.annots.description | lower | quote }}
+    k8sbatch: {{ .Values.annots.k8sbatch | upper | quote }}
+    repeat: {{ .Values.annots.k8sbatch | upper | repeat 5 | quote }}
+    defaultlabel: {{ .Values.annots.default | default "default-batch-b28" | quote }}
+  name: {{ .Values.labels.deployLabel }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.labels.app | quote }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.labels.app | quote }}
+    spec:
+      containers:
+      - image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        name: rollingupdate
